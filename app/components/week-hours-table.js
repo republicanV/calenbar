@@ -1,4 +1,4 @@
-import Ember from 'ember';
+// import Ember from 'ember';
 
 export default Ember.Component.extend({
 // Inject routing because of deprecation transition from view 
@@ -23,6 +23,7 @@ export default Ember.Component.extend({
 			this.actions[method].call(this);
 			console.log("deleteEvent");
 		},
+		
 		onDelete(id) {
 			//var _hol = this.get('holidayStorage');
 			//this.rerender();
@@ -51,7 +52,7 @@ export default Ember.Component.extend({
 				var _event_minutes = _event_date.getHours() * 60 + _event_date.getMinutes();
 				var _event_top = _event_minutes * _minute_height;
 
-				// _event_obj.set('top', _event_top);
+				_event_obj.set('top', _event_top);
 				
 			}// end for
 
