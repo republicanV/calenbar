@@ -1,0 +1,107 @@
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
+
+.month-table-header {
+    width: 100%;
+    text-align: left;
+}
+.month-table-header th {
+	padding-left: 5px;
+}
+.month-table {
+    width: 100%;
+    height: 75vh;
+}
+.month-table td {
+    border: 1px solid #ddd;
+    border-bottom: none;
+    border-right: none;
+    width: 14.28%;
+    text-align: left;
+    vertical-align: top;
+}
+.month-table td span {
+    color: #f0ad4e;
+}
+.day-wrap {
+	padding: 5px;
+}
+.event-title {
+    cursor: pointer;
+    color: orange;
+}
+.calendar-header__wrap {
+    padding-bottom: 4px;
+    padding-right: 14px;
+    padding-left: 50px;
+}
+.week-table-header {
+    width: 100%;
+}
+.week-table-header th {
+	width: 14.28%;
+    text-align: left;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+.week-table-header {
+    .day-name {
+        padding: 0 4px;
+    }
+}
+.week-table {
+    width: 100%;
+    height: 74vh;
+    border: 1px solid #ddd;
+    margin-bottom: 50px;
+    border-bottom: none;
+    border-left: none;
+    background-color: #fff;
+}
+.week-table .time {
+    width: 50px;
+    text-align: right;
+    font-size: 11px;
+}
+.week-table .hour {
+    height: 45px;
+    border-bottom: 1px solid #ddd;
+    padding: 2px;
+    //background: url(/resources/img/misc/stroke_d.png) 0% 50% repeat-x;
+    //cursor: pointer;
+}
+.week-table td {
+	width: 14.28%;
+    border-left: 1px solid #ddd;
+    text-align: left;
+    vertical-align: top;
+    position: relative;
+}
+.week-table td span {
+    color: #f0ad4e;
+}
+.w-hours .calendar-note {
+    position: absolute;
+    width: 90%;
+    overflow: hidden;
+    height: 40px;
+    background: #ccc;
+}
+.today {
+    background-color: blue;
+}
+.active {
+    color: red;
+}
+.week-table .nowmarker {
+    position: absolute;
+    width: 100%;
+    border: 1px solid red;
+    z-index: 1;
+}
+
+/* Modal Dialog */
+.ember-modal-dialog {
+    width: 300px;
+    height: 150px;
+}

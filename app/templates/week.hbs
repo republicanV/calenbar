@@ -1,0 +1,37 @@
+
+<div id="calendar-header" class="col-xs-12">
+	<div>
+		<table class="week-table-header">
+			<tr>
+				{{#each model.header as |_day_name|}}
+				<th>
+					<div class="day-name">{{_day_name}}</div>
+				</th>
+				{{/each}}
+			</tr>
+		</table>
+	</div>
+</div>
+<div id="calendar-widget" class="col-xs-12">
+{{outlet}}
+	<table class="week-table">
+		<tbody>
+			<tr>
+				{{#each model.days as |_day|}}
+				<td>
+					{{_day.day}}.{{_day.month}}
+					{{_day.events}}
+					{{#each _day.events as |event|}}
+						<a  
+							{{action 'showModalDialog' event}}
+							class="calendar-note event-title"
+						>
+							{{event.title}}
+						</a>
+					{{/each}}
+				</td>
+				{{/each}}
+			</tr>
+		</tbody>
+	</table>
+</div>

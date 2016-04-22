@@ -1,0 +1,62 @@
+<div id="calendar-controls" class="row">
+	<div class="col-xs-12">
+		<div class="pull-right">
+			<span class="mR15px hidden-xs hidden-sm">
+                <span class="label label-success" title="Опубликован">
+                	Опубликован
+                </span>
+                <span class="label label-primary" title="Запланирован">
+                	Запланиро..
+                </span>
+                <span class="label label-warning" title="Предлагаемый">
+                	Предлагае..
+                </span>
+                <span class="label label-danger" title="Неопубликован">
+                	Неопублик..
+                </span>
+            </span>
+            <div class="btn-group">
+            	{{#link-to 'week-hours' tagName="li"}}<a {{action 'onClickWeekHours'}} id="cal-btn-week-hours" class="btn btn-default btn-sm" style="cursor: pointer;">
+            		Неделя-по-часам
+            	</a>
+            	{{/link-to}}
+				{{#link-to 'week' tagName="li"}}<a {{action 'onClickWeek'}} id="cal-btn-week" class="btn btn-default btn-sm" style="cursor: pointer;">
+					Неделя
+				</a>
+				{{/link-to}}
+				{{#link-to 'month' tagName="li" replace=true}}
+				<a {{action 'onClickMonth'}} id="cal-btn-month" class="btn btn-default btn-sm" style="cursor: pointer;">
+					Месяц
+				</a>
+				{{/link-to}}
+            </div>
+		</div><!-- /.pull-right -->
+
+		<div>
+		
+			<a {{action 'onClickToday'}} id="cal-btn-today" class="{{if today_current "asd"}}" style="cursor: pointer;">
+				Сегодня
+			</a>
+		
+			{{#if today_current}} Today {{/if}}
+			<div class="btn-group mR10px">
+				<a  {{action 'onClickPrev'}}
+					class="btn btn-default btn-sm" style="cursor: pointer;" 
+				>	Prev
+					<!-- <i class="fa fa-chevron-left"></i> -->
+				</a>
+				<a  {{action 'onClickNext'}}
+					class="btn btn-default btn-sm" style="cursor: pointer;"
+				>	Next
+					<!-- <i class="fa fa-chevron-right"></i> -->
+				</a>
+            </div>
+			
+			<span id="selected-date" class="f12" style="text-transform:capitalize;"></span>
+            
+            <span><b>Europe/Kiev</b></span>
+
+		</div>
+	</div><!-- /.col-xs-12 -->
+</div><!-- /#calendar-controls -->
+{{yield}}

@@ -1,0 +1,5 @@
+{{#modal-dialog translucentOverlay=true close='closeModalDialog'}}
+	<h1>{{model.attributes.title}}</h1>	
+	<button {{action 'closeModalDialog'}}>Close</button>
+	<button {{action 'deleteEvent' model.id}}>Delete event</button>
+{{/modal-dialog}}
