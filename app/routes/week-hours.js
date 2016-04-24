@@ -8,14 +8,6 @@ export default Ember.Route.extend({
 
 	days: Ember.Object.create({}),
 
-	// Get the fulldate strng for the key to the day object
-    _getStringDate(date) {
-    	var _string_date = date.getFullYear() + '-' + 
-    		   		       date.getMonth() + '-' + 
-    		   		   	   date.getDate();
-    	return _string_date;
-    },//end _getStringDate()
-
 	actions: {
 
 		onClickPrev() {
@@ -50,21 +42,8 @@ export default Ember.Route.extend({
 		},
 
 		onClickWeekHours() {
-			this.refresh();
-			console.log("refresh");
-		},
-
-		onDelete(id) {
-			var _hol = this.get('holidayStorage');
-			var _model = this.get('model');
-			this.actions.onClickWeekHours();
-			//this.call(onClickWeekHours(), this);
-			//_hol.removeItem(id);
-			console.log(id, 'onDelete');
-			//console.log(_model;
 			//this.refresh();
-			//this.transitionTo('/week-hours/');
-			//destroy(this);
+			//console.log("refresh");
 		},
 
 		onNavClick(method) {
@@ -72,20 +51,43 @@ export default Ember.Route.extend({
 		}
 	},//end actions
 
+
+	/**
+	 * [beforeModel description]
+	 * @return {[type]} [description]
+	 */
 	beforeModel() {
-		var _hol = this.get('holidayStorage');
-		var _is_remove = _hol.get('isRemove');
-		if (_is_remove) {
-			this.refresh();
-		}
-		//this.refresh();
-		//console.log(_is_remove);
+		this.get('holidayStorage').on('eventRemoved', this, '_removeEvent');
 	},
 
+
+	/**
+	 * [willDestroyElement description]
+	 * @return {[type]} [description]
+	 */
 	willDestroyElement() {
-
+		this.get('holidayStorage').off('eventRemoved', this, '_removeEvent');
 	},
 
+
+  /**
+   * Get the fulldate strng for the key to the day object
+   * @param  {[type]} date [description]
+   * @return {[type]}      [description]
+   */
+  _getStringDate(date) {
+  	var _string_date = date.getFullYear() + '-' + 
+  		   		       date.getMonth() + '-' + 
+  		   		   	   date.getDate();
+  	return _string_date;
+  },//end _getStringDate()
+
+
+	/**
+	 * [model description]
+	 * @param  {[type]} params [description]
+	 * @return {[type]}        [description]
+	 */
 	model(params) {
 
 		var _self = this;
@@ -136,28 +138,12 @@ export default Ember.Route.extend({
 		}//end for
 
 	// Get Data with Promise
-		this.get('holidayStorage').getData().then(function(json) {
-			//console.log(json)
-			//_self.refresh();
-			var _json_holidays = json;
-		// Create pattern for the event object
-		// Computed method for dynamicly calculate top property
-			var _Event = Ember.Object.extend({
-									id: '',
-						 			title: '',
-						 			date: '',
-						 			top: 0,
-						 			cssTop: Ember.computed('top', function () {
-	    								return new Ember.String.htmlSafe("top: " + this.get('top') + "px");
-									})
-						 		});//end _Event
-
-			for(var i = 0; i < _json_holidays.length; i++) {
+		this.get('holidayStorage').getData().then(function(data) {
+		
+			for(var i = 0; i < data.length; i++) {
 				
-				var _holiday_date = _json_holidays[i].attributes.date * 1000;
-				_holiday_date = new Date(_holiday_date);
-				
-				var _holiday_attributes = _json_holidays[i].attributes; 
+				var _holiday_date = data[i].date * 1000;
+						_holiday_date = new Date(_holiday_date);
 
 				var _holiday_stringdate = _self._getStringDate(_holiday_date);
 			// Fill events of the day object
@@ -165,29 +151,44 @@ export default Ember.Route.extend({
 					_days_object.get(_holiday_stringdate)
 						 		.get('events')
 						 		.pushObject(
-						 			_json_holidays[i]
-						 		// _Event.create({
-						 		// 	id: _holiday_attributes.id,
-									// title: _holiday_attributes.title,
-						 		// 	date: _holiday_attributes.date,
-						 		// 	top: 0
-						 		// })
-
+						 			data[i]
 						 		);// end pushObject()
 				}// end if
 				
 			}//end for
 
-		}, function(reason) {
-			console.log("Oops... error!!");
+		}, function(error) {
+			console.log(error);
 		});// end get data with Promise
 
 		return {
 			header: _day_names,
 			days: _days,
 			hours: _hours
-		}
+		};
+	},//end model
 
-	}//end model
+
+	/**
+	 * [_removeEvent description]
+	 * @return {[type]} [description]
+	 */
+	_removeEvent(eventData) {
+
+		var _days_object = this.get('days');
+		
+		var _holiday_date = eventData.date * 1000;
+				_holiday_date = new Date(_holiday_date);
+
+		var _holiday_stringdate = this._getStringDate(_holiday_date);
+
+		if(_days_object.get(_holiday_stringdate)) {
+			_days_object.get(_holiday_stringdate)
+				 		.get('events')
+				 		.removeObject(
+				 			eventData
+				 		);// end removeObject()
+		}// end if
+	}
 
 });

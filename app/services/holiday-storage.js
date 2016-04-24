@@ -1,72 +1,78 @@
 import Ember from 'ember';
 
-// import MutableEnumerable from '../ember-runtime/mixins/mutable_enumerable';
+//
+const _Event = Ember.Object.extend({
+									id: '',
+						 			title: '',
+						 			date: '',
+						 			top: 0,
+						 			cssTop: Ember.computed('top', function () {
+	    								return new Ember.String.htmlSafe("top: " + this.get('top') + "px");
+									})
+						 		});//end _Event
 
-export default Ember.Service.extend({
 
-	_DATA: Ember.Object.extend(Ember.MutableArray),
+export default Ember.Service.extend(Ember.Evented, {
 
-	isRemove: false,
+	_DATA: Ember.A(),
+	_getDataPromise: null,
 
-	//isDestroyed: false,
-
+	/**
+	 * [getData description]
+	 * @return {[type]} [description]
+	 */
 	getData() {
 		var _that = this;
-		var _getData = this.get('_DATA');
-		if (_getData.length) {
-			//return _getDataPromise;
-			return Ember.RSVP.Promise.resolve(_getData);
+		if (_that.get('_getDataPromise')) {
+			return _that.get('_getDataPromise');
 		}
 
-		return new Promise(function(resolve, reject) {
-						$.getJSON('/holidays')
+		var _getDataPromise = new Ember.RSVP.Promise(function(resolve, reject) {
+						Ember.$.getJSON('/holidays')
 							.done(function(json) {
-								_that.set('_DATA', json.data);
-								//_that.removeItem(1);
-								/*if (_that.isRemove === true) {
-									_that.removeItem(8);
-								}*/					
-								resolve(_that.get('_DATA'));
+								var _Data = _that.get('_DATA');
+								json.data.forEach(function(event) {
+									 _Data.addObject(_Event.create({
+								 			id: event.attributes.id,
+											title: event.attributes.title,
+								 			date: event.attributes.date,
+								 			top: 0
+								 		}));
+								});
+								resolve(_Data);
 							})
-							.fail(function() {
+							.fail(function(reason) {
 								reject(reason);
 							});		
 						});
-		//this.set('_getDataPromise', _getDataPromise);
-		
-		// return _getDataPromise;		
+
+		_that.set('_getDataPromise', _getDataPromise);
+		return _getDataPromise;		
 	},
 
+
+	/**
+	 * [getDataById description]
+	 * @param  {[type]} id [description]
+	 * @return {[type]}    [description]
+	 */
 	getDataById(id) {
 		return this.getData().then(function(data) {
 			return data.findBy('id', id);		
 		});
 	},
 
-	removeItem(id) {
-	
-		var _data = this.get('_DATA');
-		var _item = _data.findBy('id', id);
-		var _item_index = _data.indexOf(_item, 0);
-		
-		_data.removeAt(_item_index);
 
-		
-		//this.set('isRemove', true);
-		//this.set('isDestroyed', true);
-		
-		/*for (var _i = 0; _i < _data.length; _i++) {
-			var _data_array = _data[_i];
-		
-			if (_data_array.id === id) {
-				var _item = _data.findBy('id', id);
-				var _item_index = _data.indexOf(_item, 0);
-				
-				_data.removeAt(_item_index);
-			}
-		}*/
-		//console.log(this.get('isRemove'));
-		
+	/**
+	 * [removeItem description]
+	 * @param  {[type]} id [description]
+	 * @return {[type]}    [description]
+	 */
+	removeItem(id) {
+		return this.getDataById(id).then((itemData) => {
+			this.get('_DATA').removeObject(itemData);
+			this.trigger('eventRemoved', itemData);
+		});
 	}
 	
 });

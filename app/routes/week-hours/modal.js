@@ -14,16 +14,16 @@ export default Ember.Route.extend({
 
 		deleteEvent(id) {
 			var _event_data = this.get('holidayStorage');
-			_event_data.removeItem(id);
-			this.send('onDelete', id);
+					_event_data.removeItem(id).then(() => {
+						this.transitionTo('week-hours');
+					});
 		}
 	},// end actions
 
 	model(params) {
 		var _params_event_id = +params._event_id;
 		var _event_data = this.get('holidayStorage').getDataById(_params_event_id);
-		
-		return _event_data;
 
+		return _event_data;
 	}// end model
 });
