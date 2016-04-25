@@ -18,20 +18,6 @@ export default Ember.Component.extend({
 			var _event_id = event.id;
 			this.get('routing.router').transitionTo('week-hours.modal', _event_id);
 		},// end showModalDialog()
-
-		deleteEvent(e) {
-			this.actions[method].call(this);
-			console.log("deleteEvent");
-		},
-		
-		onDelete(id) {
-			//var _hol = this.get('holidayStorage');
-			//this.rerender();
-			//_hol.removeItem(id);
-			console.log(id, 'onDelete from component');
-			//console.log(_hol);
-			////this.refresh();
-		},
 		
 	},// end actions
 
@@ -82,12 +68,11 @@ export default Ember.Component.extend({
 		// Nowmarker
 			var $_week_today = Ember.$('.week-table .today');
 			var _week_nowmarker = this.get('_week_nowmarker');
-			var _sc_to = false;
+			
 			if (!_week_nowmarker) {
 				
 				_week_nowmarker = Ember.$('<div class="nowmarker"></div>').appendTo($_week_today);
 				this.set('_week_nowmarker', _week_nowmarker);
-				_sc_to = true;
 				
 			}
 			

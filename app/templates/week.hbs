@@ -20,7 +20,7 @@
 				{{#each model.days as |_day|}}
 				<td>
 					{{_day.day}}.{{_day.month}}
-					{{_day.events}}
+					
 					{{#each _day.events as |event|}}
 						<a  
 							{{action 'showModalDialog' event}}

@@ -42,8 +42,7 @@ export default Ember.Route.extend({
 		},
 
 		onClickWeekHours() {
-			//this.refresh();
-			//console.log("refresh");
+			this.refresh();
 		},
 
 		onNavClick(method) {
@@ -159,7 +158,7 @@ export default Ember.Route.extend({
 
 		}, function(error) {
 			console.log(error);
-		});// end get data with Promise
+		});// end Get Data with Promise
 
 		return {
 			header: _day_names,
@@ -189,6 +188,6 @@ export default Ember.Route.extend({
 				 			eventData
 				 		);// end removeObject()
 		}// end if
-	}
+	}// end _removeEvent()
 
 });

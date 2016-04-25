@@ -8,7 +8,15 @@ export default Ember.Route.extend({
 	// Back to parent route when 
 		closeModalDialog() {
 			this.transitionTo('month');
-		}// end closeModalDialog()
+		},// end closeModalDialog()
+
+		deleteEvent(id) {
+			var _event_data = this.get('holidayStorage');
+			
+				_event_data.removeItem(id).then(() => {
+					this.transitionTo('month');
+				});
+		}
 	},// end actions
 
 	model(params) {

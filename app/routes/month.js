@@ -30,11 +30,11 @@ export default Ember.Route.extend({
     },//end _getDay()
 
 // Get the week index from 0 to ...
-	_getWeekIndex(date) {
+	/*_getWeekIndex(date) {
     	var _zero = Math.abs(_start) + 1; // absolute value number
     	var _week_number = Math.ceil((date + _zero) / 7);
     	return _week_number - 1;
-    },//end _getWeekIndex()
+    },*///end _getWeekIndex()
 
 // Switch week day start
     _getWeekDay(weekStart) {
@@ -49,9 +49,6 @@ export default Ember.Route.extend({
 // Get the fulldate strng for the key to the day object
     _getStringDate(date) {
     	var today = new Date();
-    	var today_string = today.getFullYear() + '-' + 
-    					   today.getMonth() + '-' +
-    					   today.getDate();
     	
     	var _string_date = date.getFullYear() + '-' + 
     		   		       date.getMonth() + '-' + 
@@ -104,11 +101,26 @@ export default Ember.Route.extend({
 		
 	},//end actions
 
+	/**
+	 * [beforeModel description]
+	 * @return {[type]} [description]
+	 */
+	beforeModel() {
+		this.get('holidayStorage').on('eventRemoved', this, '_removeEvent');
+	},
+
+
+	/**
+	 * [willDestroyElement description]
+	 * @return {[type]} [description]
+	 */
+	willDestroyElement() {
+		this.get('holidayStorage').off('eventRemoved', this, '_removeEvent');
+	},
+
 	model(params) {
 		
 		var _self = this;
-
-		var _real_month = new Date().getMonth();
 
 		var _timestamp = params.timestamp; // get milliseconds from url as param 
 		var _start_date = new Date(+_timestamp); // param to format date
@@ -176,14 +188,14 @@ export default Ember.Route.extend({
 
 	// Get Data with Promise
 		this.get('holidayStorage').getData().then(function(json) {
-			var _json_holidays = json.data;
+			var _json_holidays = json;
 
 			for(var i = 0; i < _json_holidays.length; i++) {
 				
-				var _holiday_date = _json_holidays[i].attributes.date * 1000;
+				var _holiday_date = _json_holidays[i].date * 1000;
 				_holiday_date = new Date(_holiday_date);
 				
-				var _holiday_attributes = _json_holidays[i].attributes; 
+				var _holiday_attributes = _json_holidays[i]; 
 
 				var _holiday_stringdate = _self._getStringDate(_holiday_date);
 			// Fill events of the day object
@@ -203,5 +215,27 @@ export default Ember.Route.extend({
 			'header': _day_names,
 			'weeks': _weeks
 		};
-	}//end model
+	},//end model
+
+	/**
+	 * [_removeEvent description]
+	 * @return {[type]} [description]
+	 */
+	_removeEvent(eventData) {
+
+		var _days_object = this.get('days');
+		
+		var _holiday_date = eventData.date * 1000;
+				_holiday_date = new Date(_holiday_date);
+
+		var _holiday_stringdate = this._getStringDate(_holiday_date);
+
+		if(_days_object.get(_holiday_stringdate)) {
+			_days_object.get(_holiday_stringdate)
+				 		.get('events')
+				 		.removeObject(
+				 			eventData
+				 		);// end removeObject()
+		}// end if
+	}// end _removeEvent()
 });

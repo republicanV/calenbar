@@ -74,6 +74,33 @@ export default function() {
                 date: '1461382200' // 23 April
               }
             },
+            {
+              type: 'holidays',
+              id: 9,
+              attributes: {
+                id: 9,
+                title: 'День пионера',
+                date: '1461632700' // 26 April
+              }
+            },
+            {
+              type: 'holidays',
+              id: 10,
+              attributes: {
+                id: 10,
+                title: 'День календаря',
+                date: '1461802800' // 28 April
+              }
+            },
+            {
+              type: 'holidays',
+              id: 11,
+              attributes: {
+                id: 11,
+                title: 'День безделья ',
+                date: '1462057200' // 30 April
+              }
+            },
           ]
         };
     });

@@ -61,6 +61,23 @@ export default Ember.Route.extend({
 		onNavClick(method) {
 			this.actions[method].call(this);
 		}
+	},// end actions 
+
+	/**
+	 * [beforeModel description]
+	 * @return {[type]} [description]
+	 */
+	beforeModel() {
+		this.get('holidayStorage').on('eventRemoved', this, '_removeEvent');
+	},
+
+
+	/**
+	 * [willDestroyElement description]
+	 * @return {[type]} [description]
+	 */
+	willDestroyElement() {
+		this.get('holidayStorage').off('eventRemoved', this, '_removeEvent');
 	},
 
 	model(params) {
@@ -107,14 +124,14 @@ export default Ember.Route.extend({
 
 	// Get Data with Promise
 		this.get('holidayStorage').getData().then(function(json) {
-			var _json_holidays = json.data;
+			var _json_holidays = json;
 
 			for(var i = 0; i < _json_holidays.length; i++) {
 				
-				var _holiday_date = _json_holidays[i].attributes.date * 1000;
+				var _holiday_date = _json_holidays[i].date * 1000;
 				_holiday_date = new Date(_holiday_date);
 				
-				var _holiday_attributes = _json_holidays[i].attributes; 
+				var _holiday_attributes = _json_holidays[i]; 
 
 				var _holiday_stringdate = _self._getStringDate(_holiday_date);
 			// Fill events of the day object
@@ -134,5 +151,27 @@ export default Ember.Route.extend({
 			'header' : _day_names,
 			'days'   : _days
 		};
-	}//end model
+	},//end model
+
+	/**
+	 * [_removeEvent description]
+	 * @return {[type]} [description]
+	 */
+	_removeEvent(eventData) {
+
+		var _days_object = this.get('days');
+		
+		var _holiday_date = eventData.date * 1000;
+				_holiday_date = new Date(_holiday_date);
+
+		var _holiday_stringdate = this._getStringDate(_holiday_date);
+
+		if(_days_object.get(_holiday_stringdate)) {
+			_days_object.get(_holiday_stringdate)
+				 		.get('events')
+				 		.removeObject(
+				 			eventData
+				 		);// end removeObject()
+		}// end if
+	}// end _removeEvent()
 });

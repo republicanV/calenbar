@@ -7,7 +7,8 @@ const _Event = Ember.Object.extend({
 						 			date: '',
 						 			top: 0,
 						 			cssTop: Ember.computed('top', function () {
-	    								return new Ember.String.htmlSafe("top: " + this.get('top') + "px");
+	    								return new Ember.String.htmlSafe("top: " + 
+	    									this.get('top') + "px");
 									})
 						 		});//end _Event
 
@@ -48,7 +49,7 @@ export default Ember.Service.extend(Ember.Evented, {
 
 		_that.set('_getDataPromise', _getDataPromise);
 		return _getDataPromise;		
-	},
+	},// end getData()
 
 
 	/**
@@ -75,4 +76,4 @@ export default Ember.Service.extend(Ember.Evented, {
 		});
 	}
 	
-});
+});// Ember.Service.extend
