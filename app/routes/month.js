@@ -94,6 +94,11 @@ export default Ember.Route.extend({
 			var _trans = this.get('start_date');
 			this.transitionTo('/week/'+_trans.getTime());
 		},
+
+		onClickMonthTest() {
+			let _trans = this.get('start_date');
+			this.transitionTo('/newmonth/'+_trans.getTime());
+		},
 		
 		onNavClick(method) {// action caller from the component
 			this.actions[method].call(this);

@@ -15,11 +15,13 @@ Router.map(function() {
   this.route('month', {path:'/month/:timestamp'}, function() {
     this.route('modal', {path: '/:_event_id'});
   });
-  
+
   this.route('week-hours', {path: '/week-hours/'});
   this.route('week-hours', {path: '/week-hours/:timestamp'}, function() {
     this.route('modal', {path: '/:_event_id'});
   });
+  this.route('newmonth', {path: '/newmonth/'});
+  this.route('newmonth', {path: '/newmonth/:timestamp'});
 });
 
 

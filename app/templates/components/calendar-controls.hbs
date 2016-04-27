@@ -29,6 +29,11 @@
 					Месяц
 				</a>
 				{{/link-to}}
+				{{#link-to 'newmonth' tagName="li" replace=true}}
+				<a {{action 'onClickMonthTest'}} id="cal-btn-month" class="btn btn-default btn-sm" style="cursor: pointer;">
+					Месяц-ember-data
+				</a>
+				{{/link-to}}
             </div>
 		</div><!-- /.pull-right -->
 

@@ -20,6 +20,9 @@ export default Ember.Component.extend({
 		},
 		onClickWeekHours() {
 			this.sendAction('action', 'onClickWeekHours');
+		},
+		onClickMonthTest() {
+			this.sendAction('action', 'onClickMonthTest');
 		}
 	},//end actions
 });

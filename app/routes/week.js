@@ -58,6 +58,11 @@ export default Ember.Route.extend({
 			this.refresh();
 		},
 
+		onClickMonthTest() {
+			let _trans = this.get('start_date');
+			this.transitionTo('/newmonth/'+_trans.getTime());
+		},
+
 		onNavClick(method) {
 			this.actions[method].call(this);
 		}
