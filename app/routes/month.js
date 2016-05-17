@@ -6,6 +6,8 @@ export default Ember.Route.extend({
 
 	holidayStorage: Ember.inject.service(),
 
+	filterEvent: Ember.inject.service(),
+
 	_week_start: config.weekStartsOnSunday,
 
 	start_date: new Date(), // Current date
@@ -14,7 +16,12 @@ export default Ember.Route.extend({
 
 	days: Ember.Object.create({}),
 
-	_today_current: false,
+	/*_filters: 'jg',
+	filters: Ember.computed('_filters', function() {
+		return this.get('_filters');
+	}),*/
+
+	//_today_current: false,
 
 // Get day of the week number, from 0(Mon) to 6(Sun)
 	_getDay(date) { 
@@ -48,7 +55,6 @@ export default Ember.Route.extend({
 
 // Get the fulldate strng for the key to the day object
     _getStringDate(date) {
-    	var today = new Date();
     	
     	var _string_date = date.getFullYear() + '-' + 
     		   		       date.getMonth() + '-' + 
@@ -64,22 +70,18 @@ export default Ember.Route.extend({
 			_date.setMonth(_date.getMonth() - 1);
 			this.set('start_date', _date);
 			this.transitionTo('/month/' +_date.getTime());
-			Ember.$('a#cal-btn-today').removeClass('active');
 		},
 		onClickNext() {
 			let _date = this.get('start_date');
 			_date.setMonth(_date.getMonth() + 1);
 			this.set('start_date', _date);
 			this.transitionTo('/month/'+_date.getTime());
-			Ember.$('a#cal-btn-today').removeClass('active');
 		},
 		onClickToday() {
 			let _date = new Date();
 			_date.setMonth(_date.getMonth());
 			this.set('start_date', _date);
 			this.transitionTo('/month/'+_date.getTime());
-			this.set('_today_current', true);
-			Ember.$('a#cal-btn-today').addClass('active');
 		},
 		onClickMonth() {
 			this.refresh();
@@ -103,6 +105,16 @@ export default Ember.Route.extend({
 		onNavClick(method) {// action caller from the component
 			this.actions[method].call(this);
 		},
+
+		/*onFilter(filters) {
+			console.log("From route: " + filters);
+		},*/
+		filterClick(method, params) {
+			//this.actions[method].call(this);
+			console.log(method + " from route " + params);
+			///this.set('filters', params);
+			console.log(this.get('filters') + " in the route");
+		}
 		
 	},//end actions
 

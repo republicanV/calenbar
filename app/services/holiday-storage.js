@@ -5,7 +5,9 @@ const _Event = Ember.Object.extend({
 									id: '',
 						 			title: '',
 						 			date: '',
+						 			type: null,
 						 			top: 0,
+						 			is_hidden: false,
 						 			cssTop: Ember.computed('top', function () {
 	    								return new Ember.String.htmlSafe("top: " + 
 	    									this.get('top') + "px");
@@ -15,8 +17,18 @@ const _Event = Ember.Object.extend({
 
 export default Ember.Service.extend(Ember.Evented, {
 
+	filterEvent: Ember.inject.service(),
+
 	_DATA: Ember.A(),
 	_getDataPromise: null,
+
+	/**
+	 * @return {[type]}
+	 */
+	init() {
+		this.get('filterEvent').on('filterClick', this, 'filter');
+	},
+
 
 	/**
 	 * [getData description]
@@ -37,7 +49,9 @@ export default Ember.Service.extend(Ember.Evented, {
 								 			id: event.attributes.id,
 											title: event.attributes.title,
 								 			date: event.attributes.date,
-								 			top: 0
+								 			type: event.attributes.type,
+								 			top: 0,
+								 			is_hidden: false
 								 		}));
 								});
 								resolve(_Data);
@@ -73,6 +87,18 @@ export default Ember.Service.extend(Ember.Evented, {
 		return this.getDataById(id).then((itemData) => {
 			this.get('_DATA').removeObject(itemData);
 			this.trigger('eventRemoved', itemData);
+		});
+	},
+
+
+	filter(id) {
+		var _Data = this.get('_DATA');
+		_Data.forEach((holiday) => {
+			if (holiday.type == id) {
+				holiday.set('is_hidden', false);
+			} else {
+				holiday.set('is_hidden', true);
+			}
 		});
 	}
 	

@@ -4,6 +4,10 @@ export default Ember.Component.extend({
 // Inject routing because of deprecation transition from view 
 	routing: Ember.inject.service('-routing'),
 
+	filterEvent: Ember.inject.service(),
+
+	filtersMonth: Ember.A(),
+
 	_today_string: null,
 
 	_timer: null,
@@ -47,9 +51,9 @@ export default Ember.Component.extend({
 			Ember.$('a#cal-btn-today').addClass('active');
 		} 
 		
-	}//end _getToday()
+	},//end _getToday()
 
-,	didRender() {
+	didRender() {
 		var _self = this;
 
 		if (_self._timer) {
@@ -59,7 +63,10 @@ export default Ember.Component.extend({
 
 	// Invoke _getToday() once for mark today without delay
     	this._getToday(); 
-		_self._timer = setInterval(function(){ _self._getToday() }, 1000);
+		_self._timer = setInterval(function(){ _self._getToday(); }, 1000);
+
+	// Trigger sortEvent when click on filters
+		this.get('filterEvent').on('filterClick', this, 'sortEvent');
 	},//end didRender()
 
 	willDestroyElement() {
@@ -72,5 +79,21 @@ export default Ember.Component.extend({
 		
 		_self.set('_today_string', null);
 	},
+
+	didInsertElement() {
+		var _self = this;
+		//_self.get('filterEvent').on('sortEvent', this, 'filterClick');
+	},
+
+
+	sortEvent(elId) {
+		var filterStore = this.get('filtersMonth');
+		var elem = this.filtersMonth.indexOf(elId);
+		if (elem === -1) {
+			filterStore.pushObject(elId);
+		}
+		
+		console.log("From month-table: " + filterStore);
+	}
 
 });

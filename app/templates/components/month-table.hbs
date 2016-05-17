@@ -18,31 +18,45 @@
 				{{#each _week as |_day|}}
 				<td class="{{_day.dateString}}">
 					<div class="day-wrap">
-						
+
 						<div class="day-data">
 
 							<div class="day-name">
 								{{_day.day}}.{{_day.month}}
-								
+
+								{{#each filtersMonth as |filter|}}
+
+								{{/each}}<!-- end of filtersMonth -->
+
 								{{#each _day.events as |event|}}
-								<a 
-									{{action 'showModalDialog' event}} 
-									class="event-title"
-								>
-									{{event.title}}
-								</a>
-								{{/each}}
+									{{event.is_hidden}}
+									{{#if event.is_hidden}}
+									{{else}}
+									<a 
+										{{action 'showModalDialog' event}} 
+										class="event-title"
+									>
+										{{event.title}} <br>
+										Type: {{event.type}}
+										
+									</a> 
+									{{/if}}
+
+								{{/each}}<!-- end of _day.events -->
 							</div>
 							
 						</div>
 						
 					</div>
 				</td>
-				{{/each}}
+				{{/each}}<!-- end of _week -->
 			</tr>
-			{{/each}}
+			{{/each}}<!-- end of model.weeks -->
 		</tbody>
 	</table>
 </div>
-
-
+<!--
+{{#if (layer-conditional filtersMonth event.type)}}
+	{{content}} 
+{{/if}}
+-->

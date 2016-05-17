@@ -39,11 +39,10 @@
 
 		<div>
 		
-			<a {{action 'onClickToday'}} id="cal-btn-today" class="{{if today_current "asd"}}" style="cursor: pointer;">
+			<a {{action 'onClickToday'}} id="cal-btn-today" style="cursor: pointer;">
 				Сегодня
 			</a>
 		
-			{{#if today_current}} Today {{/if}}
 			<div class="btn-group mR10px">
 				<a  {{action 'onClickPrev'}}
 					class="btn btn-default btn-sm" style="cursor: pointer;" 

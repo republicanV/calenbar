@@ -99,6 +99,24 @@
     border: 1px solid red;
     z-index: 1;
 }
+/* Filter */
+.control-filter {
+    
+    background-color:coral;
+    margin-right: 5px;
+}
+.filter-1 {
+
+}
+.filter-2 {
+    background-color:lightgreen;
+}
+.filter-3 {
+    background-color: lightblue;
+}
+.clear-filter {
+    background-color: pink;
+}
 
 /* Modal Dialog */
 .ember-modal-dialog {

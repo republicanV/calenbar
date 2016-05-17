@@ -8,7 +8,8 @@ export default function() {
               attributes: {
                 id: 1,
                 title: 'День зимы',
-                date: '1454450400' // 03 Feb 2016
+                date: '1454450400', // 03 Feb 2016
+                type: 1
               }
             },
             {
@@ -17,7 +18,8 @@ export default function() {
               attributes: {
                 id: 2,
                 title: 'День растрат',
-                date: '1457388000' // 08 Mar 2016
+                date: '1457388000', // 08 Mar 2016
+                type: 2
               }
             },
             {
@@ -26,7 +28,8 @@ export default function() {
               attributes: {
                 id: 3,
                 title: 'День черепахи',
-                date: '1458252000' // 18 Mar 2016
+                date: '1458252000', // 18 Mar 2016
+                type: 3
               }
             },
             {
@@ -35,7 +38,8 @@ export default function() {
               attributes: {
                 id: 4,
                 title: 'День весны',
-                date: '1456802400' // 1 Mar 2016
+                date: '1456802400', // 1 Mar 2016
+                type: 1
               }
             },
             {
@@ -44,7 +48,8 @@ export default function() {
               attributes: {
                 id: 5,
                 title: 'День отличника',
-                date: '1457159400' // 5 Mar
+                date: '1457159400', // 5 Mar
+                type: 2
               }
             },
             {
@@ -53,7 +58,8 @@ export default function() {
               attributes: {
                 id: 6,
                 title: 'День сибирских пельменей',
-                date: '1461126000' // 20 April
+                date: '1461126000', // 20 April
+                type: 3
               }
             },
             {
@@ -62,7 +68,8 @@ export default function() {
               attributes: {
                 id: 7,
                 title: 'День ленивых вареников',
-                date: '1461308400' // 22 April
+                date: '1461308400', // 22 April
+                type: 1
               }
             },
             {
@@ -71,7 +78,8 @@ export default function() {
               attributes: {
                 id: 8,
                 title: 'День тюленя',
-                date: '1461382200' // 23 April
+                date: '1461382200', // 23 April
+                type: 2
               }
             },
             {
@@ -80,7 +88,8 @@ export default function() {
               attributes: {
                 id: 9,
                 title: 'День пионера',
-                date: '1461632700' // 26 April
+                date: '1461632700', // 26 April
+                type: 3
               }
             },
             {
@@ -89,7 +98,8 @@ export default function() {
               attributes: {
                 id: 10,
                 title: 'День календаря',
-                date: '1461802800' // 28 April
+                date: '1461802800', // 28 April
+                type: 1
               }
             },
             {
@@ -98,7 +108,8 @@ export default function() {
               attributes: {
                 id: 11,
                 title: 'День безделья ',
-                date: '1462057200' // 30 April
+                date: '1462057200', // 30 April
+                type: 2
               }
             },
           ]
